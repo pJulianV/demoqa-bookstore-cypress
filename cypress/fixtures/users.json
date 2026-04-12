@@ -1,0 +1,22 @@
+{
+  "validUser": {
+    "username": "testuser_demoqa_2026",
+    "password": "Test@Cypress123",
+    "firstName": "Test",
+    "lastName": "User"
+  },
+  "invalidUser": {
+    "username": "usuario_invalido_xyz",
+    "password": "contraseña_mala"
+  },
+  "books": {
+    "gitPocketGuide": {
+      "isbn": "9781449325862",
+      "title": "Git Pocket Guide"
+    },
+    "jsDesignPatterns": {
+      "isbn": "9781449331818",
+      "title": "Learning JavaScript Design Patterns"
+    }
+  }
+}

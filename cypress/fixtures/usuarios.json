@@ -1,0 +1,22 @@
+{
+  "validUser": {
+    "userName": "testuser_demoqa_2026",
+    "password": "Test@Cypress123"
+  },
+  "newUser": {
+    "firstName": "Julian",
+    "lastName": "V",
+    "userName": "julian_test_001",
+    "password": "Password123!"
+  },
+  "invalidUser": {
+    "userName": "usuario_falso",
+    "password": "wrongpassword"
+  },
+  "books": {
+    "git": "Git Pocket Guide",
+    "design": "Learning JavaScript Design Patterns",
+    "publisher": "O'Reilly Media",
+    "nonExistent": "Libro de Prueba que no existe"
+  }
+}
