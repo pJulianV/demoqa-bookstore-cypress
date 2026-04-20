@@ -1,21 +1,34 @@
-// cypress/support/commands.js
+// commands.js - Comandos personalizados DemoQA Book Store
 
-Cypress.Commands.add('login', (username, password) => {
-  cy.visit('/login', { timeout: 30000 });
-  cy.get('#userName', { timeout: 10000 }).clear().type(username, { delay: 50 });
-  cy.get('#password').clear().type(password, { delay: 50 });
-  cy.get('#login').click();
-  // Esperar a que cualquiera de estos elementos indique que estamos autenticados
-  cy.get('button, a', { timeout: 30000 }).should('exist');
-});
+// Registra el usuario via API (sin CAPTCHA) y luego hace login por UI
+Cypress.Commands.add('registrarYLogin', () => {
+    const usuario = {
+        userName: 'testcypress2026',
+        password: 'Test@Cypress123',
+        firstName: 'Test',
+        lastName: 'Cypress'
+    };
 
-// Comando para limpiar libros si es necesario (limpieza de colección)
-Cypress.Commands.add('deleteAllBooks', () => {
-  cy.visit('/profile');
-  cy.get('body').then(($body) => {
-    if ($body.find('.text-right.button.di').length > 0) {
-      cy.get('.text-right.button.di').contains('Delete All Books').click();
-      cy.get('#closeSmallModal-ok').click();
-    }
-  });
+    // Intentar registrar el usuario via API (si ya existe, simplemente continúa)
+    cy.request({
+        method: 'POST',
+        url: 'https://demoqa.com/Account/v1/User',
+        body: {
+            userName: usuario.userName,
+            password: usuario.password
+        },
+        failOnStatusCode: false // Si ya existe (406), no falla el test
+    }).then((response) => {
+        cy.log(`Registro: status ${response.status} - ${response.status === 201 ? 'Usuario creado' : 'Usuario ya existía'}`);
+    });
+
+    // Hacer login por UI
+    cy.visit('/login', { timeout: 30000 });
+    cy.get('#userName', { timeout: 15000 }).should('be.visible').clear().type(usuario.userName);
+    cy.get('#password').clear().type(usuario.password);
+    cy.get('#login').click();
+
+    // Esperar redirección al perfil
+    cy.url({ timeout: 15000 }).should('include', '/profile');
+    cy.log('LOGIN EXITOSO: Sesión iniciada correctamente');
 });
